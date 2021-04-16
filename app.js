@@ -33,29 +33,19 @@ async function getMealsBySearch(term) {
 function addMeal(mealData) {
   //console.log(mealData);
 
-  const meal = document.createElement("li");
-  meal.classList.add("list-group-item");
-  meal.classList.add("p-2");
-  meal.classList.add("my-1");
+  const meal = document.createElement("div");
+  meal.classList.add("col-lg-4");
+  const briefInstruction = mealData.strInstructions.slice(0, 50) + '...';
 
   meal.innerHTML = `
-  <div class="media align-items-lg-center flex-column flex-lg-row py-1">
-  <div class="media-body order-2 order-lg-1">
-    <h5 class="mt-0 font-weight-bold mb-2">${mealData.strMeal}</h5>
-    <p><b>Instruction :</b></p>
-                            <p class="font-italic text-muted mb-0 small">${mealData.strInstructions}</p>
-                            <div class="d-flex align-items-center justify-content-between mt-1">
-                            <h6 class="my-2">url <a href="${mealData.strYoutube}">link</a></h6>
-                            <ul class="list-inline small">
-                              <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                              <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                              <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                              <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                              <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
-                            </ul>
-                          </div>
-                            </div><img src="${mealData.strMealThumb}" alt="${mealData.strMeal}" width="200" class="ml-lg-5 order-1 order-lg-2">
-                        </div>                            
+    <figure class="rounded p-3 bg-white shadow-sm">
+        <img src="${mealData.strMealThumb}" alt="${mealData.strMeal}" class="w-100 card-img-top">
+        <figcaption class="py-4 card-img-bottom">
+            <h2 class="h5 font-weight-bold mb-1">${mealData.strMeal}</h2>
+            <p class="mb-0 text-small text-muted"><b>Tag</b> : ${mealData.strCategory}, ${mealData.strArea}.</p>
+            <p class="mb-0 text-small text-muted"><b>Instructions</b> : ${briefInstruction}</p>
+        </figcaption>
+    </figure>
   `;
 
   mealsEl.appendChild(meal);
