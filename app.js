@@ -1,6 +1,6 @@
 //element assignment
 const mealsEl = document.getElementById("meals");
-
+const alertEl = document.getElementById("alert");
 
 const searchKey = document.getElementById("searchKey");
 const searchBtn = document.getElementById("searchBtn");
@@ -12,9 +12,13 @@ searchBtn.addEventListener("click", async () => {
   const search = searchKey.value;
   const meals = await getMealsBySearch(search);
 
-  if (meals) {
+  if (meals === null) {
+    //console.log("null");
+    showAlert();
+  } else {
     meals.forEach((meal) => {
       addMeal(meal);
+      //console.log(meal.strMeal);
     });
   }
 });
@@ -28,6 +32,24 @@ async function getMealsBySearch(term) {
   const meals = respData.meals;
 
   return meals;
+}
+
+function showAlert() {
+
+  const alert = document.createElement("div");
+  alert.classList.add("bg-light");
+  alert.classList.add("p-3");
+  alert.classList.add("my-3");
+  alert.classList.add("rounded");
+  alert.classList.add("shadow");
+  alert.innerHTML = `<button type="button" class="close" data-dismiss="alert">&times;</button><span class="text-primary">recipe not found !</span>`;
+  alertEl.appendChild(alert);
+
+
+  setTimeout(function () {
+    removeAlert();
+  }, 5000)
+
 }
 
 function addMeal(mealData) {
@@ -49,4 +71,12 @@ function addMeal(mealData) {
   `;
 
   mealsEl.appendChild(meal);
+
+}
+
+function removeAlert() {
+  while (alertEl.firstChild) {
+    alertEl.removeChild(alertEl.firstChild);
+    //alertEl.removeChild(alertEl.childNodes[0]);
+  }
 }
