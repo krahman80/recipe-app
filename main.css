@@ -15,3 +15,10 @@ body {
     right: 0;
   }
   
+  /* #meals > div > figure> img {
+    cursor:pointer;
+  } */
+
+  #meals {
+    cursor:pointer;
+  }
