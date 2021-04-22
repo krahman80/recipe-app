@@ -15,7 +15,21 @@ const myModalInstance = new BSN.Modal("#myModal");
 mealsEl.addEventListener("click", e => {
   e.preventDefault;
   e.stopPropagation;
-  showModal();
+
+  const mealInfo = e.path.find(item => {
+    if (item.classList) {
+      return item.classList.contains('meal-info');
+    } else {
+      return false;
+    }
+  });
+
+  if (mealInfo) {
+    const mealID = mealInfo.getAttribute('data-mealID');
+    //console.log(mealID);
+    getMealById(mealID);
+  }
+
 });
 
 searchBtn.addEventListener("click", async () => {
@@ -75,14 +89,15 @@ function addMeal(mealData) {
   //console.log(mealData);
 
   const meal = document.createElement("div");
-  meal.classList.add("col-lg-4");
+  meal.classList.add("col-lg-4", "meal-info");
+  meal.setAttribute("data-mealId", mealData.idMeal);
   const briefInstruction = mealData.strInstructions.slice(0, 50) + '...';
 
   meal.innerHTML = `
     <figure class="rounded p-3 bg-white shadow-sm">
         <img src="${mealData.strMealThumb}" alt="${mealData.strMeal}" class="w-100 card-img-top">
         <figcaption class="py-4 card-img-bottom">
-            <h2 class="h5 font-weight-bold mb-1" data-mealID="${mealData.idMeal}">${mealData.strMeal}</h2>
+            <h2 class="h5 font-weight-bold mb-1">${mealData.strMeal}</h2>
             <p class="mb-0 text-small text-muted"><b>Tag</b> : ${mealData.strCategory}, ${mealData.strArea}.</p>
             <p class="mb-0 text-small text-muted"><b>Instructions</b> : ${briefInstruction}</p>
         </figcaption>
@@ -106,3 +121,53 @@ function showModal() {
   //console.log("test");
 }
 
+// Fetch meal by ID
+function getMealById(mealID) {
+  fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
+    .then(res => res.json())
+    .then(data => {
+      const meal = data.meals[0];
+      addMealToModal(meal);
+    });
+}
+
+function addMealToModal(meal) {
+  const ingredients = [];
+
+  for (let i = 1; i <= 20; i++) {
+    if (meal[`strIngredient${i}`]) {
+      ingredients.push(
+        `${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`
+      );
+    } else {
+      break;
+    }
+  }
+
+  const modalContent = `
+  <div class="modal-header">
+  <h2 class="modal-title">${meal.strMeal}</h2>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <img src="${meal.strMealThumb}" alt="${meal.strMeal}" class="w-100 card-img-top"/>
+  <div class="single-meal-info">
+  <p class="mb-0 text-small text-muted"><b>Tag</b> : ${meal.strCategory ? `<span>${meal.strCategory}</span>` : ''}, 
+        ${meal.strArea ? `<span>${meal.strArea}</span>` : ''}
+      </div>
+  <h4>Instruction</h4>
+      <p>${meal.strInstructions}</p>
+      <h4>Ingredients</h4>
+    <ul>
+      ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
+    </ul>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+`;
+  myModalInstance.setContent(modalContent);
+  myModalInstance.show();
+}
