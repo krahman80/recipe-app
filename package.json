@@ -1,19 +1,21 @@
 {
   "name": "recipe-app",
   "version": "1.0.0",
-  "description": "app to view recipe",
+  "description": "java script mini application to search and view recipe",
   "main": "apps.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint --ext .js",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier": "npx prettier --check *.js",
+    "prettier:fix": "npm run prettier -- --write",
+    "format": "npm run prettier:fix && npm run lint:fix"
   },
   "author": "rahman",
-  "license": "ISC",
+  "license": "UNLICENCED",
   "devDependencies": {
-    "eslint": "^7.24.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1"
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^8.3.0"
   },
   "dependencies": {
     "bootstrap.native": "^3.0.15-alpha1"

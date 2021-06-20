@@ -1,49 +1,48 @@
 body {
-    background: #00b09b;
-    background: -webkit-linear-gradient(to right, #e9e501, #fcff5e);
-    background: linear-gradient(to right, #00b09b, #99c948);
-    min-height: 100vh;
-  }
-  
-  .text-gray {
-    color: #aaa;
-  }
-  
-  .caption-1 figcaption {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
-  
-  /* #meals > div > figure> img {
+  background: #00b09b;
+  background: -webkit-linear-gradient(to right, #e9e501, #fcff5e);
+  background: linear-gradient(to right, #00b09b, #99c948);
+  min-height: 100vh;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+.caption-1 figcaption {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+/* #meals > div > figure> img {
     cursor:pointer;
   } */
 
-  #meals {
-    cursor:pointer;
-  }
+#meals {
+  cursor: pointer;
+}
 
-  .modal-body div {
-    margin: 10px 0;
-    padding: 10px;
-    border: 2px #e09850 dashed;
-    border-radius: 5px;
-  }
+.modal-body div {
+  margin: 10px 0;
+  padding: 10px;
+  border: 2px #e09850 dashed;
+  border-radius: 5px;
+}
 
-  .model-body ul {
-    padding-left: 0;
-    list-style-type: none;
-  }
-  
-  .modal-body ul li {
-    /* border: 1px solid #ededed;
+.model-body ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.modal-body ul li {
+  /* border: 1px solid #ededed;
     border-radius: 5px;
     background-color: #fff; */
-    display: inline-block;
-    color: #2d2013;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 5px;
-    margin: 0 5px 5px 0;
-  }
-  
+  display: inline-block;
+  color: #2d2013;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px;
+  margin: 0 5px 5px 0;
+}

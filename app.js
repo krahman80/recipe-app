@@ -1,22 +1,22 @@
 import BSN from './node_modules/bootstrap.native/dist/bootstrap-native.esm.min.js';
 // import BSN from './node_modules/bootstrap.native/dist/components/modal-native.esm.js';
 
-//element assignment
-const mealsEl = document.getElementById("meals");
-const alertEl = document.getElementById("alert");
+// element assignment
+const mealsEl = document.getElementById('meals');
+const alertEl = document.getElementById('alert');
 
-const searchKey = document.getElementById("searchKey");
-const searchBtn = document.getElementById("searchBtn");
+const searchKey = document.getElementById('searchKey');
+const searchBtn = document.getElementById('searchBtn');
 
-//init new modal
-const myModalInstance = new BSN.Modal("#myModal");
+// init new modal
+const myModalInstance = new BSN.Modal('#myModal');
 // const modalLink = document.getElementById("anchorID");
 
-mealsEl.addEventListener("click", e => {
-  e.preventDefault;
-  e.stopPropagation;
+mealsEl.addEventListener('click', (e) => {
+  // e.preventDefault
+  // e.stopPropagation
 
-  const mealInfo = e.path.find(item => {
+  const mealInfo = e.path.find((item) => {
     if (item.classList) {
       return item.classList.contains('meal-info');
     } else {
@@ -26,44 +26,41 @@ mealsEl.addEventListener("click", e => {
 
   if (mealInfo) {
     const mealID = mealInfo.getAttribute('data-mealID');
-    //console.log(mealID);
+    // console.log(mealID);
     getMealById(mealID);
   }
-
 });
 
-searchBtn.addEventListener("click", async () => {
-
-  mealsEl.innerHTML = "";
-  alertEl.innerHTML = "";
+searchBtn.addEventListener('click', async () => {
+  mealsEl.innerHTML = '';
+  alertEl.innerHTML = '';
   const search = searchKey.value;
-  if (search == "") {
-    //console.log("keyword is empty");
-    showAlert("Please enter a search term.");
-
+  if (search === '') {
+    // console.log("keyword is empty");
+    showAlert('Please enter a search term.');
   } else {
     const meals = await getMealsBySearch(search.trim());
     if (meals === null) {
-      //console.log("null");
+      // console.log("null");
       const searchText = `<span class="text-dark">"${search.trim()}"</span>`;
-      showAlert(searchText + " " + "recipe not found, please try again.");
+      showAlert(
+        searchText + ' ' + 'recipe not found, please try again.',
+      );
     } else {
       meals.forEach((meal) => {
         addMeal(meal);
-        //console.log(meal.strMeal);
+        // console.log(meal.strMeal);
       });
     }
   }
 
-  searchKey.value = "";
-
+  searchKey.value = '';
 });
 
-
 async function getMealsBySearch(term) {
-  alertEl.innerHTML = "";
+  alertEl.innerHTML = '';
   const resp = await fetch(
-    "https://www.themealdb.com/api/json/v1/1/search.php?s=" + term
+    'https://www.themealdb.com/api/json/v1/1/search.php?s=' + term,
   );
 
   const respData = await resp.json();
@@ -73,25 +70,24 @@ async function getMealsBySearch(term) {
 }
 
 function showAlert(keyText) {
-
-  const alert = document.createElement("div");
-  alert.classList.add("bg-light", "p-3", "my-3", "rounded", "shadow");
+  const alert = document.createElement('div');
+  alert.classList.add('bg-light', 'p-3', 'my-3', 'rounded', 'shadow');
   alert.innerHTML = `<span class="text-primary">${keyText}</span>`;
   alertEl.appendChild(alert);
 
   // setTimeout(function () {
   //   removeAlert();
   // }, 5000)
-
 }
 
 function addMeal(mealData) {
-  //console.log(mealData);
+  // console.log(mealData);
 
-  const meal = document.createElement("div");
-  meal.classList.add("col-lg-4", "meal-info");
-  meal.setAttribute("data-mealId", mealData.idMeal);
-  const briefInstruction = mealData.strInstructions.slice(0, 50) + '...';
+  const meal = document.createElement('div');
+  meal.classList.add('col-lg-4', 'meal-info');
+  meal.setAttribute('data-mealId', mealData.idMeal);
+  const briefInstruction =
+    mealData.strInstructions.slice(0, 50) + '...';
 
   meal.innerHTML = `
     <figure class="rounded p-3 bg-white shadow-sm">
@@ -105,27 +101,26 @@ function addMeal(mealData) {
   `;
 
   mealsEl.appendChild(meal);
-
 }
 
-// function removeAlert() {
+// function removeAlert () {
 //   while (alertEl.firstChild) {
-//     alertEl.removeChild(alertEl.firstChild);
-//     //alertEl.removeChild(alertEl.childNodes[0]);
+//     alertEl.removeChild(alertEl.firstChild)
+//     alertEl.removeChild(alertEl.childNodes[0])
 //   }
 // }
 
-
-function showModal() {
-  myModalInstance.show();
-  //console.log("test");
-}
+// function showModal () {
+//   myModalInstance.show()
+// }
 
 // Fetch meal by ID
 function getMealById(mealID) {
-  fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
-    .then(res => res.json())
-    .then(data => {
+  fetch(
+    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`,
+  )
+    .then((res) => res.json())
+    .then((data) => {
       const meal = data.meals[0];
       addMealToModal(meal);
     });
@@ -137,7 +132,7 @@ function addMealToModal(meal) {
   for (let i = 1; i <= 20; i++) {
     if (meal[`strIngredient${i}`]) {
       ingredients.push(
-        `${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`
+        `${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`,
       );
     } else {
       break;
@@ -152,16 +147,20 @@ function addMealToModal(meal) {
   </button>
 </div>
 <div class="modal-body">
-  <img src="${meal.strMealThumb}" alt="${meal.strMeal}" class="w-100 card-img-top"/>
+  <img src="${meal.strMealThumb}" alt="${
+    meal.strMeal
+  }" class="w-100 card-img-top"/>
   <div class="single-meal-info">
-  <p class="mb-0 text-small text-muted"><b>Tag</b> : ${meal.strCategory ? `<span>${meal.strCategory}</span>` : ''}, 
+  <p class="mb-0 text-small text-muted"><b>Tag</b> : ${
+    meal.strCategory ? `<span>${meal.strCategory}</span>` : ''
+  }, 
         ${meal.strArea ? `<span>${meal.strArea}</span>` : ''}
       </div>
   <h4>Instruction</h4>
       <p>${meal.strInstructions}</p>
       <h4>Ingredients</h4>
     <ul>
-      ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
+      ${ingredients.map((ing) => `<li>${ing}</li>`).join('')}
     </ul>
 </div>
 <div class="modal-footer">
